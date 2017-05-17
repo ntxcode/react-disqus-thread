@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var DISQUS_CONFIG = ['shortname', 'identifier', 'title', 'url', 'category_id', 'onNewComment'];
+	var DISQUS_CONFIG = ['shortname', 'identifier', 'title', 'url', 'category_id', 'onNewComment', 'language'];
 	var __disqusAdded = false;
 	
 	function copyProps(context, props) {
@@ -80,13 +80,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    context[prefix + prop] = props[prop];
 	  });
 	
-	  if (typeof props.onNewComment === 'function') {
-	    context[prefix + 'config'] = function config() {
+	  context[prefix + 'config'] = function config() {
+	    if (typeof props.onNewComment === 'function') {
 	      this.callbacks.onNewComment = [function handleNewComment(comment) {
 	        props.onNewComment(comment);
 	      }];
-	    };
-	  }
+	    }
+	
+	    this.language = props.language;
+	  };
 	}
 	
 	module.exports = _react2['default'].createClass({
@@ -142,7 +144,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * JavaScript object with comment `id` and `text`. This allows you to track
 	     * user comments and replies and run a script after a comment is posted.
 	     */
-	    onNewComment: _react2['default'].PropTypes.func
+	    onNewComment: _react2['default'].PropTypes.func,
+	
+	    /**
+	     * `language` tells Disqus what language to load, check available languages here:
+	     * https://www.transifex.com/explore/languages/
+	     */
+	    language: _react2['default'].PropTypes.string
 	  },
 	
 	  getDefaultProps: function getDefaultProps() {
@@ -152,7 +160,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      title: null,
 	      url: null,
 	      category_id: null,
-	      onNewComment: null
+	      onNewComment: null,
+	      language: 'en'
 	    };
 	  },
 	
