@@ -17,6 +17,7 @@ const App = React.createClass({
           identifier="react-disqus-thread"
           title="React Disqus thread component"
           onNewComment={this.handleNewComment}
+          language="en_US"
         />
       </div>
     );
